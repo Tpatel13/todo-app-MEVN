@@ -59,11 +59,32 @@ const updateProject = (project) => {
   }
 }
 
-const addTodo = (projectName, todos) => {
+const addTodos = (projectName, todos) => {
   if(projectName){
     Project.update({name: project.name}, {$pushAll : {values : todos}});
   }
 }
+
+const deleteTodos = (projectName, todos) => {
+  if(projectName){
+    Project.update({name: project.name}, {$pullAll : {values : todos}});
+  }
+}
+
+const updateTodo = (projectName, todoObj) => {
+  if(projectName){
+    let titl=todoObj.title, query = {};
+    if(todoObj.oldTitle) {
+      titl = todoObj.oldTitle;
+      query['todos.$.title'] = todoObj.title;
+    }
+    if(todoObj.status) query['todos.$.status']=todoObj.status;
+
+    Project.update({$and:[{name:projectName},{'todos.title':titl}]},{$set: query});
+//    Project.update({name: project.name}, {$pullAll : {values : todos}});
+  }
+}
+
 
 module.exports = {
   getProjects,
@@ -71,5 +92,7 @@ module.exports = {
   addProject,
   deleteProjectByName,
   updateProject,
-  addTodo
+  addTodos,
+  deleteTodos,
+  updateTodo
 };
