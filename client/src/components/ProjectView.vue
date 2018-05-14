@@ -28,7 +28,9 @@
         Entry
     },
     data() {
-      return {};
+      return {
+          projName:''
+      };
     },
     methods: {
       onSelectProject() {

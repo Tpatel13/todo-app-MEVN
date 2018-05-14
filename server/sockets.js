@@ -35,9 +35,7 @@ module.exports = (server, db) => {
     socket.on("add-project", projectName => {
       db.addProject(projectName).then(result => {
         console.log(result);
-        db.getProjects().then(result => {
-          socket.emit("renderProjects", result);
-        });
+        socket.emit("load-projects");
       });
     });
   });
