@@ -3,7 +3,8 @@
     <table>
       <thead>
         <tr class="center">
-          <th colspan="3">Projects</th>
+          <th>Projects</th>
+          <th v-on:keyup.enter="archive()">Archive</th>
         </tr>
       </thead>
       <!-- <tr v-for="project in projects" :key="project"> {{project}}</tr> -->
@@ -50,6 +51,9 @@
       addProject(){
         this.$socket.emit("add-project", this.projName)
         this.projName='';
+      },
+      archive(){
+          this.$socket.emit('archive-todos');
       }
     },
     sockets: {

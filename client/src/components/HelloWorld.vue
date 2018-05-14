@@ -33,7 +33,6 @@ export default {
     TodoView,
     Entry
   },
-  created() {},
   data() {
     return {
       msg: "Welcome to Your Vue.js App",

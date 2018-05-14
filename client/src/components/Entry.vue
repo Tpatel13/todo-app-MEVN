@@ -2,7 +2,7 @@
   <tr class="hoverable">
     <!-- <td>{{todo.id}}</td> -->
     <td v-if="type=='todo'" v-on:click="changeStatus"><i class="small material-icons">done</i></td>
-    <td v-on:click="entryClicked">
+    <td v-on:click="entryClicked" width=80%>
       <strike v-if="item.status">{{item.name?item.name:item.title}}</strike>
       <div v-else>{{item.name?item.name:item.title}}</div>
       
@@ -39,6 +39,7 @@ export default {
     remove() {
         this.$socket.emit("remove-entry", this.type, this.item);
         this.$socket.emit("load-projects");
+        this.$socket.emit("load-todos", this.project);
     },
     changeStatus() {
         this.$socket.emit("change-status", this.type, this.item, this.project);

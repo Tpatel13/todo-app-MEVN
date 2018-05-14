@@ -8,7 +8,7 @@ module.exports = (server, db) => {
       });
     });
     socket.on("load-todos", project => {
-      db.getProjectByName(project.name).then(result => {
+      db.getProject(project).then(result => {
         socket.emit("renderTodos", result);
       });
     });
@@ -40,5 +40,13 @@ module.exports = (server, db) => {
         socket.emit("renderTodos", result);
       });
     });
+
+    socket.on("archive-todos", () => {
+      db.archiveTodos(project, [todo]).then(result => {
+        socket.emit("renderTodos", result);
+      });
+    });
+
+
   });
 };

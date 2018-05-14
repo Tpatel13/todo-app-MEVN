@@ -28,8 +28,8 @@ const getProjects = () => Project.find({}, {
   todos: 0
 });
 
-const getProjectByName = name => Project.findOne({
-  name: name
+const getProject = project => Project.findOne({
+  _id: project ? project._id : new Mongoose.Types.ObjectId()
 });
 
 const addProject = project => {
@@ -112,13 +112,22 @@ const updateTodo = (project, todoObj) => {
   }
 };
 
+const archiveTodos = () => {
+  return Project.update({}, {
+    $pull: {
+      'todos.$.status': true
+    }
+  });
+}
+
 module.exports = {
   getProjects,
-  getProjectByName,
+  getProject,
   addProject,
   deleteProject,
   updateProject,
   addTodos,
   deleteTodos,
-  updateTodo
+  updateTodo,
+  archiveTodos
 };
