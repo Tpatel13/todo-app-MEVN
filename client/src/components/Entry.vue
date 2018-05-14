@@ -37,13 +37,13 @@ export default {
       }
     },
     remove() {
-        this.$socket.emit("remove-entry", this.type, this.item.name);
+        this.$socket.emit("remove-entry", this.type, this.item);
         this.$socket.emit("load-projects");
     },
     changeStatus() {
-        this.$socket.emit("change-status", this.type, this.item, this.projectName);
+        this.$socket.emit("change-status", this.type, this.item, this.project);
         console.log("status"+this.item)
-        this.$socket.emit("load-todos", this.projectName);
+        this.$socket.emit("load-todos", this.project);
     }    
   },
   sockets: {

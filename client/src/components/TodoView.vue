@@ -13,6 +13,10 @@
       <!-- <Entry v-for="project in projects" v-bind:item="project" v-bind:type="'project'"  :key="project._id"></Entry> -->
 
     </table>
+    <div class="input-field col s12">
+      <input v-model="todo" v-on:keyup.enter="addTodo(todo)" placeholder="Add Todo" />
+      <!-- <input v-model="projName" v-on:keyup.enter="addProject(projName)" placeholder="Add Project" /> -->
+    </div>
     <!-- <div class="col s1" v-on:click="addTodo">
       <a class="btn-floating btn-large waves-effect waves-light red">
         <i class="material-icons">add</i>
@@ -22,30 +26,36 @@
 </template>
 
 <script>
-  import Entry from './Entry'
+  import Entry from "./Entry";
   export default {
-    name: 'TodoView',
-    props:['prj','projects'],
-    components:{
+    name: "TodoView",
+    props: ["prj", "projects"],
+    components: {
       Entry
     },
-  data() {
-    return {
-//      todos: []
-      // ,project:this.project
-    };
-  },
-  computed:{
-    // todos: function(){
-    //   return this.prj.todos;
-    // }
-  },
-  beforeMount() {
-    this.$socket.emit("load-todos", this.prj);
-  },
-  sockets:{
-  }
-  }
+    data() {
+      return {
+        //      todos: []
+        // ,project:this.project
+        todo:''
+      };
+    },
+    computed: {
+      // todos: function(){
+      //   return this.prj.todos;
+      // }
+    },
+    beforeMount() {
+      this.$socket.emit("load-todos", this.prj);
+    },
+    sockets: {},
+    methods: {
+      addTodo(task) {
+        this.$socket.emit("add-todo", this.prj, {title:task,status:false});
+        this.todo=''
+      }
+    }
+  };
 
 </script>
 

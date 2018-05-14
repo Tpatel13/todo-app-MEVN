@@ -79,6 +79,7 @@ export default {
   sockets: {
     renderProjects(projects) {
       this.projects = projects;
+//      this.$socket.emit('renderTodos', this.selectedProject)
     },
     renderTodos(projectDoc) {
       if (projectDoc && projectDoc.name == this.selectedProject.name)

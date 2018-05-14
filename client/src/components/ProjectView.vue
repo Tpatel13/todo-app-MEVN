@@ -11,7 +11,7 @@
     </table>
     <div class="row">
       <div class="input-field col s12">
-        <input v-model="projName" v-on:keyup.enter="addProject(projName)" placeholder="Add Project" />
+        <input v-model="projName" v-on:keyup.enter="addProject()" placeholder="Add Project" />
         <!-- <input v-model="projName" v-on:keyup.enter="addProject(projName)" placeholder="Add Project" /> -->
       </div>
     </div>
@@ -47,8 +47,9 @@
         console.log("status" + this.item)
         this.$socket.emit("load-todos", this.projectName);
       },
-      addProject(projectName){
-        this.$socket.emit("add-project", projectName)
+      addProject(){
+        this.$socket.emit("add-project", this.projName)
+        this.projName='';
       }
     },
     sockets: {
