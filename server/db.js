@@ -115,8 +115,12 @@ const updateTodo = (project, todoObj) => {
 const archiveTodos = () => {
   return Project.update({}, {
     $pull: {
-      'todos.$.status': true
+      todos: {
+        status: true
+      }
     }
+  }, {
+    multi: true
   });
 }
 

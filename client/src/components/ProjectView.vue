@@ -4,19 +4,16 @@
       <thead>
         <tr class="center">
           <th>Projects</th>
-          <th v-on:keyup.enter="archive()">Archive</th>
+          <a class="waves-effect waves-light btn" v-on:click="archive()">Archive</a>
         </tr>
       </thead>
-      <!-- <tr v-for="project in projects" :key="project"> {{project}}</tr> -->
-      <Entry v-for="project in projects" v-bind:item="project" v-bind:type="'project'"  :key="project._id"></Entry>
+      <Entry v-for="project in projects" v-bind:item="project" v-bind:type="'project'"  :key="project._id" :class="project.name==selected.name?'card-panel teal lighten-3 hoverable':''"></Entry>
     </table>
     <div class="row">
       <div class="input-field col s12">
         <input v-model="projName" v-on:keyup.enter="addProject()" placeholder="Add Project" />
-        <!-- <input v-model="projName" v-on:keyup.enter="addProject(projName)" placeholder="Add Project" /> -->
       </div>
     </div>
-    <!-- <archive></archive> -->
   </div>
 </template>
 
@@ -24,7 +21,7 @@
   import Entry from './Entry'
   export default {
     name: 'ProjectView',
-    props: ['projects'],
+    props: ['projects','selected'],
     components:{
         Entry
     },
@@ -45,7 +42,6 @@
       },
       changeStatus() {
         this.$socket.emit("change-status", this.type, this.item, this.projectName);
-        console.log("status" + this.item)
         this.$socket.emit("load-todos", this.projectName);
       },
       addProject(){

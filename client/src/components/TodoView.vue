@@ -6,7 +6,7 @@
           <th colspan="2">Tasks</th>
         </tr>
       </thead>
-      <h2 v-if="!prj || !prj.name">Please select a Project from left panel</h2>
+      <h5 v-if="!prj || !prj.name">Please select a Project from left panel</h5>
       <Entry v-else v-for="item in prj.todos" v-bind:item="item" v-bind:type="'todo'" v-bind:project="prj" :key="item.id"></Entry>
     </table>
     <div v-if="prj && prj.name" class="input-field col s12">

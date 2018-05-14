@@ -4,18 +4,18 @@ module.exports = (server, db) => {
   io.on("connection", socket => {
     socket.on("load-projects", () => {
       db.getProjects().then(result => {
-        socket.emit("renderProjects", result);
+        io.emit("renderProjects", result);
       });
     });
     socket.on("load-todos", project => {
       db.getProject(project).then(result => {
-        socket.emit("renderTodos", result);
+        io.emit("renderTodos", result);
       });
     });
     socket.on("remove-entry", (type, item) => {
       if (type == "project") {
         db.deleteProject(item).then(result => {
-          socket.emit("load-projects");
+          io.emit("load-projects");
         });
       }
     });
@@ -23,27 +23,26 @@ module.exports = (server, db) => {
       if (type == "todo") {
         item.status = !item.status;
         db.updateTodo(project, item).then(result => {
-          socket.emit("renderTodos", result);
+          io.emit("renderTodos", result);
         });
       }
     });
     socket.on("add-project", projectName => {
       db.addProject(projectName).then(result => {
-        //        socket.emit("load-projects");
         db.getProjects().then(result => {
-          socket.emit("renderProjects", result);
+          io.emit("renderProjects", result);
         });
       });
     });
     socket.on("add-todo", (project, todo) => {
       db.addTodos(project, [todo]).then(result => {
-        socket.emit("renderTodos", result);
+        io.emit("renderTodos", result);
       });
     });
 
     socket.on("archive-todos", () => {
-      db.archiveTodos(project, [todo]).then(result => {
-        socket.emit("renderTodos", result);
+      db.archiveTodos().then(result => {
+        io.emit("forceRenderTodos");
       });
     });
 

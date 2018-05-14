@@ -10,7 +10,7 @@
         </div>
         <div class="divider"></div>
         <div class="section">
-          <ProjectView v-bind:projects="projects"></ProjectView>
+          <ProjectView v-bind:projects="projects" v-bind:selected="selectedProject"></ProjectView>
         </div>
       </div>
       <div class="col s12 m8 l8">
@@ -27,7 +27,7 @@ import Entry from "./Entry";
 import { EventBus } from "../event-bus.js";
 
 export default {
-  name: "HelloWorld",
+  name: "MainPage",
   components: {
     ProjectView,
     TodoView,
@@ -78,17 +78,18 @@ export default {
   sockets: {
     renderProjects(projects) {
       this.projects = projects;
-//      this.$socket.emit('renderTodos', this.selectedProject)
+      this.$socket.emit('load-todos', this.selectedProject)
     },
     renderTodos(projectDoc) {
       if (projectDoc && projectDoc.name == this.selectedProject.name)
         this.changeSelected(projectDoc)
-    }
+    },
+    forceRenderTodos() {
+        this.$socket.emit("load-todos", this.selectedProject);
+    }    
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
 </style>
