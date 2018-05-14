@@ -9,7 +9,7 @@ module.exports = (server, db) => {
       });
     });
     socket.on("load-todos", project => {
-      console.log("project" + project)
+      console.log("project" + project.name)
       db.getProjectByName(project.name).then(result => {
         console.log(result)
         socket.emit("renderTodos", result);
