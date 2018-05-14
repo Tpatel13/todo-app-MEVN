@@ -1,13 +1,13 @@
 {
   "name": "todo-app-mevn",
   "version": "1.0.0",
-  "description": "ToDo App using node.js, socket.io, express and vue.js ",
+  "description": "ToDo App using node.js, mongodb, mongoose, express and vue.js ",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "Jay - Tirth",
+  "author": "Jay",
   "license": "MIT",
   "dependencies": {
     "express": "^4.16.3",

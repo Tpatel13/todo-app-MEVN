@@ -5,7 +5,7 @@
         <div class="section">
           <div class="container">
             <h4>ToDo App</h4>
-            <h6>Built using MEVN stack</h6>
+            <h6>Built using MVN stack</h6>
           </div>
         </div>
         <div class="divider"></div>
