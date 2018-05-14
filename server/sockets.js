@@ -3,39 +3,41 @@ module.exports = (server, db) => {
 
   io.on("connection", socket => {
     socket.on("load-projects", () => {
-      console.log("load");
       db.getProjects().then(result => {
         socket.emit("renderProjects", result);
       });
     });
     socket.on("load-todos", project => {
-      console.log("project" + project.name)
       db.getProjectByName(project.name).then(result => {
-        console.log(result)
         socket.emit("renderTodos", result);
       });
     });
-    socket.on("remove-entry", (type, itemName) => {
+    socket.on("remove-entry", (type, item) => {
       if (type == "project") {
-        db.deleteProjectByName(itemName).then(result => {
+        db.deleteProject(item).then(result => {
           socket.emit("load-projects");
         });
       }
     });
-    socket.on("change-status", (type, item, projectName) => {
+    socket.on("change-status", (type, item, project) => {
       if (type == "todo") {
-        console.log("sss" + item.status);
         item.status = !item.status;
-        console.log("sss" + item.status);
-        db.updateTodo(projectName, item).then(result => {
-          socket.emit("load-todos", projectName);
+        db.updateTodo(project, item).then(result => {
+          socket.emit("renderTodos", result);
         });
       }
     });
     socket.on("add-project", projectName => {
       db.addProject(projectName).then(result => {
-        console.log(result);
-        socket.emit("load-projects");
+        //        socket.emit("load-projects");
+        db.getProjects().then(result => {
+          socket.emit("renderProjects", result);
+        });
+      });
+    });
+    socket.on("add-todo", (project, todo) => {
+      db.addTodos(project, [todo]).then(result => {
+        socket.emit("renderTodos", result);
       });
     });
   });

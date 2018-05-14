@@ -7,7 +7,9 @@ Mongoose.connection.on("error", err => {
 });
 
 const ProjectSchema = new Mongoose.Schema({
-  name: String,
+  name: {
+    type: String
+  },
   todos: [{
     title: String,
     status: {
@@ -35,9 +37,9 @@ const addProject = project => {
     'name': project
   });
 }
-const deleteProjectByName = name => {
+const deleteProject = project => {
   return Project.findOneAndRemove({
-    name: name
+    _id: project._id
   });
 }
 
@@ -50,7 +52,7 @@ const updateProject = project => {
     if (project.todos) query.todos = project.todos;
 
     console.log(query)
-    Project.update({
+    return Project.update({
       name: project.name
     }, {
       $set: {
@@ -60,50 +62,53 @@ const updateProject = project => {
   }
 };
 
-const addTodos = (projectName, todos) => {
-  if (projectName) {
-    Project.update({
-      name: project.name
+const addTodos = (project, todos) => {
+  if (project) {
+    return Project.findOneAndUpdate({
+      _id: project._id
     }, {
-      $pushAll: {
-        values: todos
+      $push: {
+        todos: todos
       }
+    }, {
+      "new": true
     });
   }
 };
 
-const deleteTodos = (projectName, todos) => {
-  if (projectName) {
-    Project.update({
+const deleteTodos = (project, todos) => {
+  if (project) {
+    return Project.findOneAndUpdate({
       name: project.name
     }, {
-      $pullAll: {
-        values: todos
+      $pull: {
+        todos: todos
       }
+    }, {
+      "new": true
     });
   }
 };
 
-const updateTodo = (projectName, todoObj) => {
-  if (projectName) {
-    let titl = todoObj.title,
-      query = {};
+const updateTodo = (project, todoObj) => {
+  if (project) {
+    query = {};
     if (todoObj.oldTitle) {
-      titl = todoObj.oldTitle;
       query["todos.$.title"] = todoObj.title;
     }
-    if (todoObj.status) query["todos.$.status"] = todoObj.status;
+    if (todoObj.hasOwnProperty('status')) query["todos.$.status"] = todoObj.status;
 
-    return Project.update({
+    return Project.findOneAndUpdate({
       $and: [{
-        name: projectName
+        name: project.name
       }, {
-        "todos.title": titl
+        "todos._id": todoObj._id
       }]
     }, {
       $set: query
+    }, {
+      "new": true
     });
-    //    Project.update({name: project.name}, {$pullAll : {values : todos}});
   }
 };
 
@@ -111,7 +116,7 @@ module.exports = {
   getProjects,
   getProjectByName,
   addProject,
-  deleteProjectByName,
+  deleteProject,
   updateProject,
   addTodos,
   deleteTodos,
