@@ -1,4 +1,4 @@
-# client
+# todo-client
 
 > A Vue.js project
 

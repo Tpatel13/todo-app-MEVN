@@ -1,20 +1,16 @@
 <template>
   <div id="app">
-    
-    <router-view></router-view>
+    <HelloWorld/>
   </div>
 </template>
 
 <script>
-import login from './components/login'
-import todo from './components/todo.vue'
-import todoitem from './components/todo-item.vue'
-import generateTodo from './components/generateTodo.vue'
-import archive from './components/archive.vue'
+import HelloWorld from './components/HelloWorld'
+
 export default {
   name: 'App',
   components: {
-    login,todo,generateTodo,todoitem,archive
+    HelloWorld
   }
 }
 </script>

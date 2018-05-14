@@ -1,8 +1,8 @@
 {
-  "name": "client",
+  "name": "todo-client",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "",
+  "author": "Jay Patel <imjaypatel12@gmail.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -10,9 +10,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "socket.io-client": "^2.1.0",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1",
-    "vue-session": "^1.0.0"
+    "vue-socket.io": "^2.1.1-b"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
